@@ -279,8 +279,8 @@
       return {
         rating: ratingInfo.rating,
         ratingLabel: ratingInfo.label,
-        companyName: product.brand || "Unknown Brand",
-        productName: product.title || "Product",
+        companyName: product.title,
+        productName: product.description,
         testCount: Math.floor(Math.random() * 10) + 3, // Random test count 3-12
         lastTestDate: new Date().toLocaleDateString("en-GB", {
           day: "numeric",
