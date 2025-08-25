@@ -8,11 +8,11 @@
   // Product ID to DummyJSON product mapping
   const productMapping = {
     "product-1": 1,
-    "product-2": 2,
-    "product-3": 3,
+    "product-2": 7,
+    "product-3": 14,
     "semaglutide-001": 1,
-    "tirzepatide-002": 2,
-    "peptide-mix-003": 3,
+    "tirzepatide-002": 7,
+    "peptide-mix-003": 14,
   };
 
   // Rating calculation based on product data
