@@ -27,10 +27,9 @@
 
   // Widget styles (embedded to avoid external CSS dependencies)
   const widgetStyles = `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     
     .finnrick-widget-embed {
-      --widget-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --widget-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       --widget-bg-color: #f5f5f5;
       --widget-border-radius: 12px;
       --widget-padding: 20px;
@@ -302,16 +301,36 @@
   </svg>
   `;
 
+  // HTML sanitization function
+  function sanitizeHTML(str) {
+    if (typeof str !== 'string') return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .replace(/\//g, '&#x2F;');
+  }
+
   // Create widget HTML
   function createWidgetHTML(data) {
     const bgColor = ratingColors[data.rating] || "#666";
+    
+    // Sanitize all user-controllable data
+    const safeCompanyName = sanitizeHTML(data.companyName);
+    const safeProductName = sanitizeHTML(data.productName);
+    const safeRating = sanitizeHTML(data.rating);
+    const safeRatingLabel = sanitizeHTML(data.ratingLabel);
+    const safeTestCount = sanitizeHTML(String(data.testCount));
+    const safeLastTestDate = sanitizeHTML(data.lastTestDate);
 
     return `
       <div class="finnrick-widget-embed">
         <div class="finnrick-widget-embed__container">
           <div class="finnrick-widget-embed__header">
             <span class="finnrick-widget-embed__title">FINNRICK RATING™</span>
-            <button class="finnrick-widget-embed__info-btn" onclick="window.open('https://finnrick.com/about-ratings', '_blank')">
+            <button class="finnrick-widget-embed__info-btn" onclick="window.open('https://finnrick.com/about-ratings', '_blank', 'noopener,noreferrer')">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <circle cx="8" cy="8" r="7" stroke="#999" stroke-width="1.5"/>
                 <text x="8" y="12" text-anchor="middle" fill="#999" font-size="10">?</text>
@@ -321,16 +340,16 @@
           
           <div class="finnrick-widget-embed__content">
             <div class="finnrick-widget-embed__rating-badge" style="background-color: ${bgColor}">
-              <span class="finnrick-widget-embed__rating-letter">${data.rating}</span>
-              <span class="finnrick-widget-embed__rating-label">${data.ratingLabel}</span>
+              <span class="finnrick-widget-embed__rating-letter">${safeRating}</span>
+              <span class="finnrick-widget-embed__rating-label">${safeRatingLabel}</span>
             </div>
             
             <div class="finnrick-widget-embed__details">
-              <h3 class="finnrick-widget-embed__company">${data.companyName}</h3>
-              <p class="finnrick-widget-embed__product">${data.productName}</p>
+              <h3 class="finnrick-widget-embed__company">${safeCompanyName}</h3>
+              <p class="finnrick-widget-embed__product">${safeProductName}</p>
               <div class="finnrick-widget-embed__test-info">
-                <p>Tested ${data.testCount} Samples</p>
-                <p>Last test ${data.lastTestDate}</p>
+                <p>Tested ${safeTestCount} Samples</p>
+                <p>Last test ${safeLastTestDate}</p>
               </div>
             </div>
           </div>
@@ -368,7 +387,12 @@
         ratingLabel: ratingInfo.label,
         companyName: product.title,
         productName: product.description,
-        testCount: Math.floor(Math.random() * 10) + 3, // Random test count 3-12
+        testCount: (() => {
+          // Secure random number generation
+          const array = new Uint32Array(1);
+          crypto.getRandomValues(array);
+          return (array[0] % 10) + 3; // Random test count 3-12
+        })(),
         lastTestDate: new Date().toLocaleDateString("en-GB", {
           day: "numeric",
           month: "short",
@@ -376,7 +400,8 @@
         }),
       };
     } catch (error) {
-      console.error("Error fetching rating data:", error);
+      // Sanitized error logging - don't expose sensitive information
+      console.error("Finnrick Widget: Failed to fetch rating data");
 
       // Fallback data when API fails
       return {
@@ -390,6 +415,16 @@
     }
   }
 
+  // Input validation function
+  function validateProductId(productId) {
+    if (!productId || typeof productId !== 'string') {
+      return false;
+    }
+    // Allow alphanumeric characters, hyphens, and underscores, max 50 chars
+    const validPattern = /^[a-zA-Z0-9_-]{1,50}$/;
+    return validPattern.test(productId);
+  }
+
   // Initialize widget
   async function initWidget(container) {
     const productId = container.getAttribute("data-product-id");
@@ -397,6 +432,12 @@
     if (!productId) {
       container.innerHTML =
         '<div class="finnrick-widget-embed finnrick-widget-embed--error">Product ID is required</div>';
+      return;
+    }
+
+    if (!validateProductId(productId)) {
+      container.innerHTML =
+        '<div class="finnrick-widget-embed finnrick-widget-embed--error">Invalid product ID format</div>';
       return;
     }
 
@@ -408,7 +449,8 @@
       const data = await fetchRatingData(productId);
       container.innerHTML = createWidgetHTML(data);
     } catch (error) {
-      console.error("Finnrick Widget Error:", error);
+      // Sanitized error logging - don't expose sensitive information
+      console.error("Finnrick Widget: Failed to initialize widget");
       container.innerHTML =
         '<div class="finnrick-widget-embed finnrick-widget-embed--error">Failed to load rating</div>';
     }
