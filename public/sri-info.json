@@ -1,14 +1,14 @@
 {
   "version": "1.0.0",
-  "buildDate": "2025-08-25T05:21:12.442Z",
-  "fileSize": 11647,
+  "buildDate": "2025-08-25T05:35:09.299Z",
+  "fileSize": 13657,
   "hashes": {
-    "sha256": "sha256-pEsAUcpDGzMRQGt2K6YMeK6jpOx8TpqCn8/jSwp/q+Y=",
-    "sha384": "sha384-CKIkSrc6WP4AyERRxtlSVX7Xj+ishP5SByIiVygMRtfZVKjcNGOeBOfLUEy5xQx2",
-    "sha512": "sha512-fQHomWmcp5s1Z4S/yESS/kNg7Yyz+sFCxHQE6FLDpKHo/0RwSLpkwprCf3Uug67YNB2bVQ1fzDVbnvf69QwBWg=="
+    "sha256": "sha256-OCqjwEn0L29AqyYcrd6QOdCQsiOOOey13CTN5EBzD2o=",
+    "sha384": "sha384-UmFTgKGDWIC1srkbTJkTzWWNWuRHOoEJ0xe5DAbhaeVuRAN6afk3vt1dkl+PIQpH",
+    "sha512": "sha512-VpaJQkCp4cve8eDKe7AcHowX5ER1bEtYH/aoia+8Jqz1P2MLkRznacv9mINQT0nAslR5U5DXoOYSZHyzCTwr2w=="
   },
   "integrationCode": {
     "basic": "<div class=\"finnrick-rating\" data-product-id=\"YOUR_PRODUCT_ID\"></div>\n<script src=\"https://raw.githubusercontent.com/publicinmogr/finnrick-widget-task/refs/heads/main/public/widget.js\" async></script>",
-    "secure": "<div class=\"finnrick-rating\" data-product-id=\"YOUR_PRODUCT_ID\"></div>\n<script \n  src=\"https://raw.githubusercontent.com/publicinmogr/finnrick-widget-task/refs/heads/main/public/widget.js\"\n  integrity=\"sha384-CKIkSrc6WP4AyERRxtlSVX7Xj+ishP5SByIiVygMRtfZVKjcNGOeBOfLUEy5xQx2\"\n  crossorigin=\"anonymous\"\n  async>\n</script>"
+    "secure": "<div class=\"finnrick-rating\" data-product-id=\"YOUR_PRODUCT_ID\"></div>\n<script \n  src=\"https://raw.githubusercontent.com/publicinmogr/finnrick-widget-task/refs/heads/main/public/widget.js\"\n  integrity=\"sha384-UmFTgKGDWIC1srkbTJkTzWWNWuRHOoEJ0xe5DAbhaeVuRAN6afk3vt1dkl+PIQpH\"\n  crossorigin=\"anonymous\"\n  async>\n</script>"
   }
 }

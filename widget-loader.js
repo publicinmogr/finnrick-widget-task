@@ -1,28 +1,28 @@
-(function() {
-  'use strict';
+(function () {
+  "use strict";
 
   // Configuration
-  const WIDGET_VERSION = '1.0.0';
-  const API_BASE_URL = 'https://dummyjson.com'; // Using DummyJSON for demo
-  
+  const WIDGET_VERSION = "1.0.0";
+  const API_BASE_URL = "https://dummyjson.com"; // Using DummyJSON for demo
+
   // Product ID to DummyJSON product mapping
   const productMapping = {
-    'product-1': 1,
-    'product-2': 2,
-    'product-3': 3,
-    'semaglutide-001': 1,
-    'tirzepatide-002': 2,
-    'peptide-mix-003': 3
+    "product-1": 1,
+    "product-2": 2,
+    "product-3": 3,
+    "semaglutide-001": 1,
+    "tirzepatide-002": 2,
+    "peptide-mix-003": 3,
   };
-  
+
   // Rating calculation based on product data
   const calculateRating = (product) => {
-    const score = (product.rating || 4.5);
-    if (score >= 4.7) return { rating: 'A', label: 'GREAT' };
-    if (score >= 4.2) return { rating: 'B', label: 'GOOD' };
-    if (score >= 3.5) return { rating: 'C', label: 'FAIR' };
-    if (score >= 2.5) return { rating: 'D', label: 'POOR' };
-    return { rating: 'F', label: 'FAIL' };
+    const score = product.rating || 4.5;
+    if (score >= 4.7) return { rating: "A", label: "GREAT" };
+    if (score >= 4.2) return { rating: "B", label: "GOOD" };
+    if (score >= 3.5) return { rating: "C", label: "FAIR" };
+    if (score >= 2.5) return { rating: "D", label: "POOR" };
+    return { rating: "F", label: "FAIL" };
   };
 
   // Widget styles (embedded to avoid external CSS dependencies)
@@ -175,32 +175,50 @@
 
   // Rating colors
   const ratingColors = {
-    'A': '#28a745',
-    'B': '#6cb43f',
-    'C': '#ffc107',
-    'D': '#fd7e14',
-    'F': '#dc3545'
+    A: "#28a745",
+    B: "#6cb43f",
+    C: "#ffc107",
+    D: "#fd7e14",
+    F: "#dc3545",
   };
 
   // Finnrick logo SVG (simplified version)
-  const finnrickLogoSVG = `<svg width="80" height="22" viewBox="0 0 4490 1239" xmlns="http://www.w3.org/2000/svg">
-    <g fill="#1a1a1a">
-      <path d="M268.116 32.58v588h281.7v-87.52h-221.28V372.02h152.54v-87.5h-152.54V120.1h221.28V32.58h-281.7z"/>
-      <path d="M1337.716 32.58h120.44v588h-120.44z"/>
-      <path d="M1572.856 32.58v588h98.78V120.1l101.68 496.48h176.28V32.58h-98.76v496.48L1749.136 32.58h-176.28z"/>
-      <path d="M2214.676 32.58v588h98.78V120.1l101.68 496.48h176.28V32.58h-98.76v496.48L2390.976 32.58h-176.28z"/>
-      <path d="M2771.496 601.58c-1.12-13.18-2.06-32.56-2.58-58.14-.28-24.72.08-48.46.92-71.26 1.94-40 -5.42-70.58-22.3-92.3-16.82-21.52-41.6-32.3-74.38-32.3h-6.66c28.34-6.1 49.3-14.66 62.92-25.42 27.22-21.66 40.84-63.62 40.84-125.84 0-55.1-13.48-94.28-40.42-117.52-27.04-23.34-72.02-35-134.98-35h-177.08v588h120.44V380.04h35v.02c28.88 0 49.16 6.04 60.84 18.12 11.66 12.08 17.22 32.86 16.66 62.3v71.26c0 26.12.42 45.7 1.26 58.76.84 13.06 2.22 22.78 4.16 29.18h120.02c-2.26-6.66-4.04-16.38-5.14-29.1z"/>
-      <rect x="2887.236" y="32.58" width="120.44" height="588"/>
-      <path d="M3363.316 414.04v17.52c1.1 68.9-11.66 117.96-38.34 147.28-26.66 29.32-71.82 43.96-135.44 43.96-67.52 0-115.08-15.9-142.74-47.72-27.64-31.8-41.46-85.46-41.46-160.9V221.58c0-75.98 13.82-130.18 41.46-162.58 27.66-32.4 75.22-48.6 142.74-48.6 58.62 0 103.1 14.86 133.44 44.58 26.66 27.78 41.28 68.24 41 121.76v28.76h-119.6v-17.52c.54-30.56-6.84-53.4-15.32-68.56-8.48-15.14-21.34-22.72-38.54-22.72-22.5 0-38.76 8.68-48.76 26.04-10 17.36-15 45.64-15 84.82v181.28c0 51.12 4.66 88.68 13.96 112.68 9.32 24 25.9 36 49.8 36 18.6 0 32.44-8.54 41.46-25.62 9.02-17.08 13.26-43.86 12.7-80.34v-17.5h119.62z"/>
-      <path d="M3537.756 32.58v588h120.42V309.5l.22.06 129.08-276.98h127.84l-127.9 258.78 130 308.22h-130.82l-128.54-318.7-.08.06v307.64h-120.22z"/>
-      <rect x="412.536" y="120.1" width="412.98" height="412.98" fill="#000"/>
+  const finnrickLogoSVG = `\
+  <svg width="100%" height="100%" viewBox="0 0 4490 1239" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(2,0,0,2,-231.642,-1880.71)">
+        <path d="M735.39,1397L735.39,1103L876.24,1103L876.24,1146.76L795.6,1146.76L795.6,1226.77L871.87,1226.77L871.87,1270.52L795.6,1270.52L795.6,1397L735.39,1397Z" style="fill-rule:nonzero;"/>
     </g>
-  </svg>`;
+    <g transform="matrix(2,0,0,2,-241.642,-1880.71)">
+        <rect x="909.5" y="1103" width="60.22" height="294" style="fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(2,0,0,2,-241.642,-1880.71)">
+        <path d="M1056.74,1397L1007.35,1397L1007.35,1103L1095.91,1103L1146.75,1351.16L1146.75,1103L1196.13,1103L1196.13,1397L1107.99,1397L1056.74,1146.76L1056.74,1397Z" style="fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(2,0,0,2,-251.642,-1880.71)">
+        <path d="M1283.15,1397L1233.77,1397L1233.77,1103L1322.32,1103L1373.17,1351.16L1373.17,1103L1422.55,1103L1422.55,1397L1334.41,1397L1283.15,1146.76L1283.15,1397Z" style="fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(2,0,0,2,-251.642,-1880.71)">
+        <path d="M1636.88,1381.89C1636.32,1375.3 1635.91,1365.61 1635.63,1352.82C1635.49,1340.46 1635.63,1328.58 1636.05,1317.19C1637.02,1297.19 1633.31,1281.8 1624.9,1271.04C1616.49,1260.28 1604.1,1254.89 1587.71,1254.89L1584.38,1254.89C1598.55,1251.84 1609.03,1247.6 1615.84,1242.18C1629.45,1231.35 1636.26,1210.37 1636.26,1179.26C1636.26,1151.76 1629.52,1132.17 1616.05,1120.5C1602.57,1108.83 1580.07,1103 1548.54,1103L1460.2,1103L1460.2,1397L1520.42,1397L1520.42,1276.98L1537.92,1276.98C1552.36,1276.98 1562.5,1280 1568.34,1286.04C1574.17,1292.08 1576.95,1302.47 1576.67,1317.19L1576.67,1352.82C1576.67,1365.88 1576.88,1375.67 1577.3,1382.2C1577.72,1388.73 1578.41,1393.59 1579.38,1396.79L1639.39,1396.79C1638.26,1393.46 1637.43,1388.5 1636.88,1381.89ZM1568.22,1223.33C1563.01,1229.1 1552.62,1231.98 1537.07,1231.98L1520.4,1231.98L1520.4,1146.76L1537.07,1146.76C1552.07,1146.76 1562.31,1150.09 1567.8,1155.93C1573.29,1161.76 1576.03,1172.74 1576.03,1188.85C1576.03,1206.07 1573.43,1217.57 1568.22,1223.33Z" style="fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(2,0,0,2,-258.642,-1880.71)">
+        <rect x="1673.26" y="1103" width="60.22" height="294" style="fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(2,0,0,2,-268.642,-1880.71)">
+        <path d="M1950.1,1296.98L1950.1,1305.74C1950.65,1340.19 1944.27,1364.74 1930.93,1379.4C1917.6,1394.06 1895.02,1401.38 1863.21,1401.38C1829.45,1401.38 1805.67,1393.43 1791.84,1377.52C1778.02,1361.62 1771.11,1334.29 1771.11,1295.53L1771.11,1204.89C1771.11,1165.86 1778.02,1138.39 1791.84,1122.48C1805.66,1106.57 1829.45,1098.62 1863.21,1098.62C1892.52,1098.62 1914.26,1106.05 1928.43,1120.91C1941.76,1134.8 1950.27,1155.43 1950.13,1182.79L1950.13,1197.17L1890.33,1197.17L1890.33,1188.42C1890.6,1173.14 1886.72,1161.72 1882.48,1154.14C1878.24,1146.57 1871.82,1142.79 1863.21,1142.79C1851.96,1142.79 1843.83,1147.13 1838.83,1155.81C1833.83,1164.49 1831.33,1178.63 1831.33,1198.21L1831.33,1288.85C1831.33,1314.41 1833.66,1332.19 1838.31,1342.19C1842.97,1352.19 1851.26,1357.19 1863.21,1357.19C1872.51,1357.19 1879.43,1352.92 1883.94,1344.38C1888.45,1335.84 1890.57,1322.95 1890.29,1305.73L1890.29,1296.98L1950.1,1296.98Z" style="fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(2,0,0,2,-278.642,-1880.71)">
+        <path d="M2047.98,1397L1987.77,1397L1987.77,1103L2047.98,1103L2047.98,1238.23L2048.09,1238.23L2112.63,1103L2176.55,1103L2112.58,1232.39L2177.59,1397L2112.18,1397L2047.91,1238.23L2047.98,1238.23L2047.98,1397Z" style="fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(2,0,0,2,-231.642,-1880.71)">
+        <rect x="322.41" y="1146.76" width="206.49" height="206.49"/>
+    </g>
+  </svg>
+  `;
 
   // Create widget HTML
   function createWidgetHTML(data) {
-    const bgColor = ratingColors[data.rating] || '#666';
-    
+    const bgColor = ratingColors[data.rating] || "#666";
+
     return `
       <div class="finnrick-widget-embed">
         <div class="finnrick-widget-embed__container">
@@ -244,74 +262,79 @@
     try {
       // Map product ID to DummyJSON product ID
       const dummyProductId = productMapping[productId] || 1;
-      
+
       // Fetch product data from DummyJSON
-      const response = await fetch(`${API_BASE_URL}/products/${dummyProductId}`);
-      
+      const response = await fetch(
+        `${API_BASE_URL}/products/${dummyProductId}`
+      );
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const product = await response.json();
       const ratingInfo = calculateRating(product);
-      
+
       // Transform DummyJSON data to Finnrick widget format
       return {
         rating: ratingInfo.rating,
         ratingLabel: ratingInfo.label,
-        companyName: product.brand || 'Unknown Brand',
-        productName: product.title || 'Product',
+        companyName: product.brand || "Unknown Brand",
+        productName: product.title || "Product",
         testCount: Math.floor(Math.random() * 10) + 3, // Random test count 3-12
-        lastTestDate: new Date().toLocaleDateString('en-GB', { 
-          day: 'numeric', 
-          month: 'short', 
-          year: 'numeric' 
-        })
+        lastTestDate: new Date().toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
       };
     } catch (error) {
-      console.error('Error fetching rating data:', error);
-      
+      console.error("Error fetching rating data:", error);
+
       // Fallback data when API fails
       return {
-        rating: 'B',
-        ratingLabel: 'GOOD',
-        companyName: 'Sample Company',
-        productName: 'Sample Product',
+        rating: "B",
+        ratingLabel: "GOOD",
+        companyName: "Sample Company",
+        productName: "Sample Product",
         testCount: 5,
-        lastTestDate: '19 Feb 2025'
+        lastTestDate: "19 Feb 2025",
       };
     }
   }
 
   // Initialize widget
   async function initWidget(container) {
-    const productId = container.getAttribute('data-product-id');
-    
+    const productId = container.getAttribute("data-product-id");
+
     if (!productId) {
-      container.innerHTML = '<div class="finnrick-widget-embed finnrick-widget-embed--error">Product ID is required</div>';
+      container.innerHTML =
+        '<div class="finnrick-widget-embed finnrick-widget-embed--error">Product ID is required</div>';
       return;
     }
 
     // Show loading state
-    container.innerHTML = '<div class="finnrick-widget-embed finnrick-widget-embed--loading">Loading rating...</div>';
+    container.innerHTML =
+      '<div class="finnrick-widget-embed finnrick-widget-embed--loading">Loading rating...</div>';
 
     try {
       const data = await fetchRatingData(productId);
       container.innerHTML = createWidgetHTML(data);
     } catch (error) {
-      console.error('Finnrick Widget Error:', error);
-      container.innerHTML = '<div class="finnrick-widget-embed finnrick-widget-embed--error">Failed to load rating</div>';
+      console.error("Finnrick Widget Error:", error);
+      container.innerHTML =
+        '<div class="finnrick-widget-embed finnrick-widget-embed--error">Failed to load rating</div>';
     }
   }
 
   // Inject styles
   function injectStyles() {
-    if (document.getElementById('finnrick-widget-styles')) {
+    if (document.getElementById("finnrick-widget-styles")) {
       return;
     }
-    
-    const style = document.createElement('style');
-    style.id = 'finnrick-widget-styles';
+
+    const style = document.createElement("style");
+    style.id = "finnrick-widget-styles";
     style.textContent = widgetStyles;
     document.head.appendChild(style);
   }
@@ -319,19 +342,19 @@
   // Auto-initialize widgets
   function autoInit() {
     injectStyles();
-    
-    const containers = document.querySelectorAll('.finnrick-rating');
-    containers.forEach(container => {
-      if (!container.hasAttribute('data-initialized')) {
-        container.setAttribute('data-initialized', 'true');
+
+    const containers = document.querySelectorAll(".finnrick-rating");
+    containers.forEach((container) => {
+      if (!container.hasAttribute("data-initialized")) {
+        container.setAttribute("data-initialized", "true");
         initWidget(container);
       }
     });
   }
 
   // Initialize on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', autoInit);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", autoInit);
   } else {
     autoInit();
   }
@@ -340,6 +363,6 @@
   window.FinnrickWidget = {
     version: WIDGET_VERSION,
     init: initWidget,
-    refresh: autoInit
+    refresh: autoInit,
   };
 })();
