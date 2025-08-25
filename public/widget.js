@@ -41,7 +41,7 @@
       
       font-family: var(--widget-font-family);
       display: inline-block;
-      max-width: 400px;
+      max-width: 480px;
       width: 100%;
       box-sizing: border-box;
     }
@@ -170,6 +170,93 @@
       text-align: center;
       padding: 40px;
       color: #dc3545;
+    }
+    
+    /* Responsive Design - Mobile First */
+    @media (max-width: 480px) {
+      .finnrick-widget-embed {
+        max-width: 320px;
+        --widget-padding: 16px;
+      }
+      
+      .finnrick-widget-embed__content {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .finnrick-widget-embed__rating-badge {
+        align-self: flex-start;
+        padding: 6px 12px;
+      }
+      
+      .finnrick-widget-embed__rating-letter {
+        font-size: 20px;
+      }
+      
+      .finnrick-widget-embed__rating-label {
+        font-size: 12px;
+      }
+      
+      .finnrick-widget-embed__company {
+        font-size: 15px;
+        margin-bottom: 6px;
+      }
+      
+      .finnrick-widget-embed__product {
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      
+      .finnrick-widget-embed__test-info {
+        font-size: 11px;
+      }
+      
+      .finnrick-widget-embed__header {
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+      }
+      
+      .finnrick-widget-embed__footer {
+        padding-top: 14px;
+      }
+      
+      .finnrick-widget-embed__info-btn {
+        width: 24px;
+        height: 24px;
+        padding: 4px;
+      }
+      
+      .finnrick-widget-embed--loading,
+      .finnrick-widget-embed--error {
+        padding: 30px 20px;
+      }
+    }
+    
+    /* Tablet Design */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .finnrick-widget-embed {
+        max-width: 420px;
+      }
+      
+      .finnrick-widget-embed__content {
+        gap: 14px;
+      }
+    }
+    
+    /* Desktop Design - Enhanced */
+    @media (min-width: 769px) {
+      .finnrick-widget-embed {
+        max-width: 480px;
+      }
+      
+      .finnrick-widget-embed__content {
+        gap: 18px;
+      }
+      
+      .finnrick-widget-embed__rating-badge:hover {
+        transform: translateY(-1px);
+        transition: transform 0.2s ease;
+      }
     }
   `;
 
